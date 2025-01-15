@@ -17,5 +17,3 @@ __pycache__/
 # Log files
 *.log*
 
-# Project specific
-.assesmentdocs.*

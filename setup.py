@@ -8,5 +8,7 @@ setup(
         'pandas>=2.0.0',
         'sqlalchemy>=1.4.46',
         'pytest>=7.3.1',
+        'numpy>=1.21.0',
+        'tabulate>=0.9.0'
     ],
 ) 

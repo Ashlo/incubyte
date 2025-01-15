@@ -1,0 +1,21 @@
+# System files
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.env
+.venv
+.pytest_cache
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db3
+
+# Log files
+*.log*
+
+# Project specific
+.assesmentdocs.*

@@ -1,6 +1,6 @@
 # Hospital Vaccination Data Processor
 
-A Python-based ETL system for processing and managing vaccination records across a global hospital chain. The system handles customer data segregation by country while maintaining data integrity and providing derived analytics.
+A Python-based ETL system for processing and managing vaccination records across a global hospital chain. (Incubyte assessment)
 
 ## Features
 
@@ -21,7 +21,7 @@ A Python-based ETL system for processing and managing vaccination records across
 1. Clone the repository:
 bash
 git clone <repository-url>
-cd hospital-vaccination
+cd incubyte
 
 2. Create and activate a virtual environment (recommended):
 bash
@@ -33,17 +33,18 @@ source venv/bin/activate # On Windows: venv\Scripts\activate
 pip install -e .
 ```
 
-## Project Structure
+### Project Structure
 
-hospital-vaccination/
-├── src/
-│   ├── database/    # Database handling and SQL scripts
-│   ├── models/      # Data models and entities
-│   ├── services/    # Core business logic
-│   └── demo/        # Demo application
-├── tests/           # Unit tests
-├── requirements.txt # Project dependencies
-└── setup.py        # Package configuration
+The project structure is organized as follows:
+
+* `src/`: This directory contains the source code for the project.
+	+ `database/`: Handles database operations and SQL scripts.
+	+ `models/`: Defines data models and entities.
+	+ `services/`: Implements core business logic.
+	+ `demo/`: A demo application showcasing the project's functionality.
+* `tests/`: Contains unit tests for the project.
+* `requirements.txt`: Lists project dependencies.
+* `setup.py`: Configures the project package.
 
 ## Usage
 
@@ -51,10 +52,10 @@ hospital-vaccination/
 
 The project includes a demo application that showcases the main functionality:
 
-python
+```python
 from src.demo.demo import run_demo
 run_demo()
-
+```
 
 ### Processing Vaccination Records
 ```python
@@ -73,12 +74,13 @@ result = processor.process_file("path/to/vaccination_data.txt")
 
 The system expects input files in the following format:
 
+```
 |H|Customer_Name|Customer_Id|Open_Date|Last_Consulted_Date|Vaccination_Id|Dr_Name|State|Country|DOB|Is_Active
 |D|John|123456|20101012|20121013|MVD|Paul|NSW|AU|06031987|A
-
+```
 
 ### Field Specifications
-
+```
 - Customer_Name: VARCHAR(255), Required
 - Customer_Id: VARCHAR(18), Required
 - Open_Date: DATE (YYYYMMDD), Required
@@ -89,6 +91,7 @@ The system expects input files in the following format:
 - Country: CHAR(5)
 - DOB: DATE (YYYYMMDD)
 - Is_Active: CHAR(1)
+```
 
 ## Testing
 

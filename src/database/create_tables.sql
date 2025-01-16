@@ -10,20 +10,13 @@ CREATE TABLE IF NOT EXISTS staging_vaccination_records (
     country CHAR(5),
     dob DATE,
     is_active CHAR(1) DEFAULT 'A',
-    -- Derived columns
-    age INTEGER GENERATED ALWAYS AS (
-        CAST(strftime('%Y', 'now') AS INTEGER) - CAST(strftime('%Y', dob) AS INTEGER)
-    ),
-    days_since_consulted INTEGER GENERATED ALWAYS AS (
-        CAST(julianday('now') - julianday(last_consulted_date) AS INTEGER)
-    ),
-    needs_consultation INTEGER GENERATED ALWAYS AS (
-        CASE WHEN (julianday('now') - julianday(last_consulted_date)) > 30 THEN 1 ELSE 0 END
-    ),
+    age INTEGER,
+    days_since_last_consulted INTEGER,
+    needs_consultation INTEGER,
     PRIMARY KEY (customer_id, country)
 );
 
--- Country-specific tables
-CREATE TABLE IF NOT EXISTS table_india AS SELECT * FROM staging_vaccination_records WHERE 1=0;
+-- Country-specific tables (using the same structure)
+CREATE TABLE IF NOT EXISTS table_ind AS SELECT * FROM staging_vaccination_records WHERE 1=0;
 CREATE TABLE IF NOT EXISTS table_usa AS SELECT * FROM staging_vaccination_records WHERE 1=0;
-CREATE TABLE IF NOT EXISTS table_australia AS SELECT * FROM staging_vaccination_records WHERE 1=0; 
+CREATE TABLE IF NOT EXISTS table_aus AS SELECT * FROM staging_vaccination_records WHERE 1=0; 

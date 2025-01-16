@@ -8,12 +8,14 @@ class TestVaccinationRecord:
         return VaccinationRecord(
             customer_id="1",
             customer_name="Ashutosh Bele",
+            open_date=date(2020, 1, 1),
             dob=date(1996, 1, 1),
             last_consulted_date=date(2022, 1, 1),
             vaccination_id="ABC",
             dr_name="Dr. Banner",
             state="NSW",
-            country="AUS"
+            country="AUS",
+            is_active="A"
         )
     
     def test_age_calculation(self, sample_record):
@@ -31,12 +33,14 @@ class TestVaccinationRecord:
         record = VaccinationRecord(
             customer_id="2",
             customer_name="Elon Musk",
+            open_date=date(2020, 1, 1),
             dob=None,
             last_consulted_date=None,
             vaccination_id="XYZ",
             dr_name=None,
             state=None,
-            country="AUS"
+            country="AUS",
+            is_active="A"
         )
         assert record.age is None
         assert record.days_since_last_consulted is None 

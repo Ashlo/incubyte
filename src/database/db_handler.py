@@ -31,20 +31,29 @@ class DatabaseHandler:
                                        .replace('YEAR(', "strftime('%Y', ")
                     conn.execute(text(statement))
     
-    def load_to_staging(self, records: List[VaccinationRecord], batch_size: int = 1000):
-        """Load records to staging table in batches"""
-        # Clear staging table first
-        with self.engine.begin() as conn:
-            conn.execute(text("DELETE FROM staging_vaccination_records"))
-            
-        df = pd.DataFrame([vars(record) for record in records])
+    def load_to_staging(self, records: List[VaccinationRecord]):
+        """Load records to staging table with computed columns"""
+        data = []
+        for record in records:
+            data.append({
+                'customer_id': record.customer_id,
+                'customer_name': record.customer_name,
+                'open_date': record.open_date,
+                'last_consulted_date': record.last_consulted_date,
+                'vaccination_id': record.vaccination_id,
+                'dr_name': record.dr_name,
+                'state': record.state,
+                'country': record.country,
+                'dob': record.dob,
+                'is_active': record.is_active,
+                'age': record.age,  # Use computed property
+                'days_since_last_consulted': record.days_since_last_consulted,  # Use computed property
+                'needs_consultation': 1 if record.needs_consultation else 0  # Use computed property
+            })
         
-        # Load data in chunks to handle large volumes
-        for chunk in np.array_split(df, max(1, len(df) // batch_size)):
-            chunk.to_sql('staging_vaccination_records', 
-                        self.engine, 
-                        if_exists='append', 
-                        index=False)
+        df = pd.DataFrame(data)
+        df.to_sql('staging_vaccination_records', self.engine, 
+                  if_exists='append', index=False)
     
     def distribute_to_country_tables(self):
         """Distribute records to country-specific tables"""

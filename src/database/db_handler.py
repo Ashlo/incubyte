@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine, text
 from src.models.vaccination_record import VaccinationRecord
+from pkg_resources import resource_string
 
 class DatabaseHandler:
     def __init__(self, connection_string: str):
@@ -12,24 +13,18 @@ class DatabaseHandler:
         
     def _create_tables(self):
         """Create tables using SQL file"""
-        # Get the path to the SQL file
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        sql_file_path = os.path.join(current_dir, 'create_tables.sql')
-        
-        # Read and execute the SQL file
-        with open(sql_file_path, 'r') as file:
-            sql_statements = file.read()
+        try:
+            # Read SQL file from package resources
+            sql = resource_string('src.database', 'create_tables.sql').decode('utf-8')
             
-        # Split and execute each statement
-        with self.engine.begin() as conn:
-            # SQLite doesn't support multiple statements in one execute
-            for statement in sql_statements.split(';'):
-                if statement.strip():
-                    # Replace MySQL/PostgreSQL specific syntax with SQLite syntax
-                    statement = statement.replace('DATEDIFF(day,', 'julianday(') \
-                                       .replace('YEAR(CURRENT_DATE)', "strftime('%Y', 'now')") \
-                                       .replace('YEAR(', "strftime('%Y', ")
-                    conn.execute(text(statement))
+            # Execute each statement
+            with self.engine.begin() as conn:
+                for statement in sql.split(';'):
+                    if statement.strip():
+                        conn.execute(text(statement))
+        except Exception as e:
+            print(f"Error creating tables: {str(e)}")
+            raise
     
     def load_to_staging(self, records: List[VaccinationRecord]):
         """Load records to staging table with computed columns"""

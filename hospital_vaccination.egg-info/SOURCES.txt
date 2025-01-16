@@ -7,10 +7,13 @@ hospital_vaccination.egg-info/requires.txt
 hospital_vaccination.egg-info/top_level.txt
 src/__init__.py
 src/database/__init__.py
+src/database/create_tables.sql
 src/database/db_handler.py
 src/demo/__init__.py
 src/demo/demo.py
 src/demo/sample_data_generator.py
+src/models/__init__.py
+src/models/vaccination_record.py
 src/services/__init__.py
 src/services/file_parser.py
 src/services/vaccination_processor.py

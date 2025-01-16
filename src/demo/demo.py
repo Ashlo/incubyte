@@ -46,6 +46,7 @@ def run_demo():
     create_sample_data(sample_file)
     
     # Initialize database and processor
+    logging.info("Initializing database...")
     db_handler = DatabaseHandler("sqlite:///demo_hospital.db")
     processor = VaccinationProcessor(db_handler)
     

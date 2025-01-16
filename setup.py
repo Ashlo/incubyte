@@ -1,9 +1,12 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="hospital_vaccination",
+    name="hospital-vaccination",
     version="0.1",
     packages=find_packages(),
+    package_data={
+        'src.database': ['*.sql'],  # Include SQL files
+    },
     install_requires=[
         'pandas>=2.0.0',
         'sqlalchemy>=1.4.46',
